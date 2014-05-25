@@ -1,6 +1,6 @@
 {
-  "name": "hello-world",
-  "description": "hello world test app",
+  "name": "GamEdu",
+  "description": "education game framework for teachers",
   "version": "0.0.1",
   "private": true,
   "dependencies": {

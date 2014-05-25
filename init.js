@@ -2,7 +2,7 @@ var routes = require('./routes');
 var config = require('./config');
 
 
-module.exports = function setup(app){
+module.exports = function init(app){
 
 	config(app);
 
