@@ -21,8 +21,11 @@ module.exports = function routes(app){
 	})
 	  .post(function(req, res, next){
 		var pw = req.body.password;
-		console.log(pw);
-		res.sendfile(__dirname + '/views/teacher_home.html');
+		if (pw === "malambo"){
+			res.sendfile(__dirname + '/views/teacher_home.html');
+		} else {
+			console.log("error wrong password");
+		}
 	})
 	
 }

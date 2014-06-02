@@ -7,6 +7,8 @@
     "express": "4.x",
     "body-parser": "*",
     "express-session": "*",
-    "cookie-parser": "*"
+    "cookie-parser": "*",
+    "mongodb": "*",
+    "mongoose": "*"
   }
 }
