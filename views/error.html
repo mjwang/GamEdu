@@ -8,13 +8,13 @@
     <meta name="author" content="">
     <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
 
-    <title>Teacher Signin</title>
+    <title>GamEdu | Error</title>
 
     <!-- Bootstrap core CSS -->
     <link href="./../css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="./../css/signin.css" rel="stylesheet">
+    <link href="./../css/jumbotron-narrow.css" rel="stylesheet">
 
     <!-- Just for debugging purposes. Don't actually copy this line! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -29,24 +29,31 @@
   <body>
 
     <div class="container">
+      <div class="header">
+        <ul class="nav nav-pills pull-right">
+          <li class="active"><a href="#">Home</a></li>
+          <li><a href="/about">About</a></li>
+        </ul>
+        <h3 class="text-muted">GamEdu Error</h3>
+      </div>
+   
+      <div class="jumbotron">
+        <h1>Page Not Found</h1>
+        <p class="lead">The page you are accessing is either invalid or you do not have permission to access it.</p>
+        <p><a class="btn btn-lg btn-default" href="/" role="button">Go Back</a></p> 
+      </div>
+    
 
-      <form class="form-signin" role="form" action="login" method="post">
-        <h2 class="form-signin-heading">Please sign in</h2>
-        <input type="password" class="form-control" name="password" placeholder="Password" required>
-        <label class="checkbox">
-          <input type="checkbox" value="remember-me"> Remember me
-        </label>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-      </form>
+      <div class="footer">
+        <p>&copy; MIT D-Lab 2014</p>
+      </div>
 
-    </div> 
+    </div> <!-- /container -->
 
-    <div class="alert" visibility="hidden">
-      <button type="button" class="close" data-dismiss="alert">&times;</button>
-      <strong>Wrong password!</strong> Please re-enter password or use the site as a student.
-    </div>
 
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
   </body>
 </html>
-
 
