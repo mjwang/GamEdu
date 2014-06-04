@@ -1,6 +1,6 @@
 var teacher_id = 198273123123791870;
-
 require('./schema.js');
+var Game = require('mongoose').model('Game');
 
 module.exports = function routes(app){
 
@@ -50,43 +50,55 @@ module.exports = function routes(app){
 	})
 	  .post(function(req, res, next){
 		console.log("posting newly created game");
-		var gname = req.body.game_name;
-		var gsubject = req.body.game_subject;
-		var gdesc = req.body.game_desc;
+		var gname = req.body.name;
+		console.log(gname);
+		var gsubject = req.body.subject;
+		console.log(gsubject);
+		var gdesc = req.body.desc;
+		console.log(gdesc);
 		
-		var next_id = 1;
-		var g_id = next_id;
-		next_id++;
-
-		var new_game = Game({gid: g_id, 
-				name: 'gname',
+		var new_game = new Game({name: gname,
+				subject: gsubject,
+				desc: gdesc,
 				game_type: 'default',
 				published: false,
 				questions: [],
 				times_played: 0});
 		
-		new_game.save(function(err){
+		new_game.save(function(err, saved_game){
 			if (err) {
 				console.log("Error: Couldn't Save Game");
+				res.redirect('/error');
+			} else {
+				res.redirect('/view_game/' + saved_game.id);
 			}
 		});
 
-		res.redirect('/edit_game/' + g_id);
 	})
 
+	app.param('gid', function(req, res, next, gid){
+		console.log('finding game');
+		Game.findOne({'_id':gid}, function(err, game){
+			req.gname = game.name; 
+			req.gsub = game.subject;
+			req.gdesc = game.desc;
+			req.published = game.published;
+			req.questions = game.questions;
+			req.played = game.times_played;
+			next();
+		});
+	});
 
-	app.route('/edit_game/:gid')
-	  .get(function(req, res, next, gid){
-		//TODO: Get relevant game info
-		//res.sendfile(__dirname + '/views/view_game.html');
-		console.log("edit game route");
-		res.send(req.body.gid);
-	})
-	  .post(function(req, res, next, gid){
+	app.get('/view_game/:gid', checkAuth, function(req, res){
+		console.log("viewing game");
+		console.log(req.gname);
+		res.render('view_game', {gname: req.gname});
+	});
+
+	app.post('/edit_game/:gid', function(req, res){
 
 
-	})
-
+	});
 
 	function checkAuth(req, res, next) {
 		if (!req.session.user_id) {
@@ -96,10 +108,4 @@ module.exports = function routes(app){
 		}
 	}
 
-	function generate_gid(){
-		'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-    		var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
-    		return v.toString(16);
-		});
-	}
 }

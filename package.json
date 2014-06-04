@@ -9,6 +9,7 @@
     "express-session": "*",
     "cookie-parser": "*",
     "mongodb": "*",
-    "mongoose": "*"
+    "mongoose": "*",
+    "jade": "*"
   }
 }
