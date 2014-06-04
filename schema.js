@@ -10,5 +10,5 @@ var Game = new Schema({
   times_played: Number
 });
 
-mongoose.Model('Game', Game);
+mongoose.model('Game', Game);
 	
