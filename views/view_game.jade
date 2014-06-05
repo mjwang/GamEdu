@@ -1,32 +1,20 @@
-doctype html
-html
-  head
-    link(rel="shortcut icon" href="../../assets/ico/favicon.ico")
+extends layout
 
-    title GamEdu | View Game
+block content
 
-    // Bootstrap core CSS
-    link(href="./../css/bootstrap.min.css" rel="stylesheet")
+  h2 #{gname}
+  small #{gsubject}
 
-    // Custom styles for this template
-    link(href="./../css/jumbotron-narrow.css" rel="stylesheet")
+  p #{gdesc}
 
-  body
+  h3 Questions
+  #questions
+  if questions.length === 0
+    p No questions yet!
+  else
+    for question in questions
+      h4 = question.question
+      .answer = question.answer 
 
-    .container
-      .header
-        ul(class="nav nav-pills pull-right")
-          li.active
-            a(href="/") Home
-          li
-            a(href="/about") About
-          li
-            a(href="/logout") Logout
-        
-        h3.text-muted View Game Information 
-
-      h2 Name of Game: #{gname} 
-   
-      .footer
-        p &copy; MIT D-Lab 2014
-
+  button(class="btn btn-primary") Add Question
+  

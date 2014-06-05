@@ -13,23 +13,21 @@ module.exports = function routes(app){
 		console.log('Testing GamEdu');
 	});
 
-	app.get('/student_home', function(req, res){
-		res.sendfile(__dirname + '/views/student_home.html');
-	});
-
-	app.get('/teacher_home', checkAuth, function(req, res){
-		res.sendfile(__dirname + '/views/teacher_home.html');
+	app.get('/dashboard', checkAuth, loadGames, function(req, res){
+		res.render('dashboard', { games: req.games, teacher: req.teacher});	
+		//res.sendfile(__dirname + '/views/teacher_home.html');
 	}); 
 	
 	app.route('/login')
-	  .get(function(req, res, next){
-		res.sendfile(__dirname + '/views/login.html');
+	  .get(checkAuth, function(req, res, next){
+		res.render('login', {teacher: req.teacher});
+		//res.sendfile(__dirname + '/views/login.html');
 	})
 	  .post(function(req, res, next){
 		var pw = req.body.password;
 		if (pw === "malambo"){
 			req.session.user_id = teacher_id; 
-			res.redirect('/teacher_home');
+			res.redirect('/dashboard');
 		} else {
 			console.log("error wrong password");
 		}
@@ -41,12 +39,17 @@ module.exports = function routes(app){
 	});
 
 	app.get('/error', function(req, res){
-		res.sendfile(__dirname + '/views/error.html');
+		res.render('error', { error_message: "The page you are accessing is either invalid or you do not have permission to access it." });
+		//res.sendfile(__dirname + '/views/error.html');
 	});
 
 	app.route('/create_game')
 	  .get(checkAuth, function(req, res, next){
-		res.sendfile(__dirname + '/views/create_game.html');
+		//res.sendfile(__dirname + '/views/create_game.html');
+		if (!req.teacher) {
+		  res.redirect('/error');
+		}
+		res.render('create_game', {teacher: req.teacher});
 	})
 	  .post(function(req, res, next){
 		console.log("posting newly created game");
@@ -92,7 +95,11 @@ module.exports = function routes(app){
 	app.get('/view_game/:gid', checkAuth, function(req, res){
 		console.log("viewing game");
 		console.log(req.gname);
-		res.render('view_game', {gname: req.gname});
+		res.render('view_game', {gname: req.gname,
+					gsubject: req.gsub,
+					gdesc: req.gdesc,
+					questions: req.questions,
+					teacher: true});
 	});
 
 	app.post('/edit_game/:gid', function(req, res){
@@ -100,12 +107,24 @@ module.exports = function routes(app){
 
 	});
 
+	function loadGames(req, res, next){
+		console.log("Fetching all games");
+		Game.find(function(err, all_games){
+			req.games = all_games;
+			next();
+		});
+	}
+
 	function checkAuth(req, res, next) {
 		if (!req.session.user_id) {
-			res.redirect("/error");
+			req.teacher = false;
+			//res.redirect("/error");
+			next();
 		} else {
+			req.teacher = true;
 			next();
 		}
 	}
+
 
 }
