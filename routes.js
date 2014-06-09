@@ -13,6 +13,10 @@ module.exports = function routes(app){
 		console.log('Testing GamEdu');
 	});
 
+	app.get('/about', checkAuth, function(req, res){
+		res.render('about', {teacher: req.teacher});
+	});
+
 	app.get('/dashboard', checkAuth, loadGames, function(req, res){
 		res.render('dashboard', { games: req.games, teacher: req.teacher});	
 		//res.sendfile(__dirname + '/views/teacher_home.html');
@@ -82,13 +86,16 @@ module.exports = function routes(app){
 	app.param('gid', function(req, res, next, gid){
 		console.log('finding game');
 		Game.findOne({'_id':gid}, function(err, game){
-			req.gname = game.name; 
-			req.gsub = game.subject;
-			req.gdesc = game.desc;
-			req.published = game.published;
-			req.questions = game.questions;
-			req.played = game.times_played;
-			next();
+			if (!err){
+				req.gname = game.name; 
+				req.gsub = game.subject;
+				req.gdesc = game.desc;
+				req.published = game.published;
+				req.questions = game.questions;
+				req.played = game.times_played;
+				req.gid = game.id;
+				next();
+			}
 		});
 	});
 
@@ -98,14 +105,49 @@ module.exports = function routes(app){
 		res.render('view_game', {gname: req.gname,
 					gsubject: req.gsub,
 					gdesc: req.gdesc,
+					gid: req.gid,
 					questions: req.questions,
 					teacher: true});
 	});
 
-	app.post('/edit_game/:gid', function(req, res){
+	app.route('/edit_game/:gid')
+	  .get(checkAuth, function(req, res){
+                if(!req.teacher){
+			res.redirect('/error');
+		} else {
+			console.log("Rendering edit game page");
+			res.render('edit_game', {gname: req.gname,
+					gsubject: req.gsub,
+					gdesc: req.gdesc,
+					gid: req.gid,
+					gpub: req.published,
+					teacher: req.teacher});
+		}
+	})
+	  .post(checkAuth, function(req, res){
+		if(!req.teacher){
+			res.redirect('/error');
+		}
 
+		var new_name = req.body.name;
+		var new_subject = req.body.subject;
+		var new_desc = req.body.desc;
+		var new_pub;
 
-	});
+		if (req.body.published === "on"){
+			new_pub = true;	
+		} else {
+			new_pub = false;
+		}
+
+		Game.update({_id: req.gid}, {name: new_name, subject: new_subject, desc: new_desc, published: new_pub}, function(err, game) {
+			if (err){
+				console.log(err);
+			} else {
+				res.redirect('/view_game/' + req.gid);
+			}
+		});
+	})
 
 	function loadGames(req, res, next){
 		console.log("Fetching all games");

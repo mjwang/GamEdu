@@ -11,21 +11,29 @@ block content
     for game in games 
       if (teacher || game.published)
         if teacher
-          a(href="/view_game/" + game.id)
             .panel(class="panel-default")
               .panel-heading
-                h3 #{game.name}
+                .row
+                  .col-md-9
+                    h3 #{game.name}
+                  .col-md-3
+                    a(href="view_game/" + game.id)
+                      button.btn.btn-sucess.pull-right Edit
               .panel-body
                 .text-muted.small #{game.subject}
                 p #{game.desc}
         else
-          a(href="/play_game/" + game.id)
             .panel(class="panel-default")
               .panel-heading
-                h3 #{game.name}
-            .panel-body
-              .text-muted.small #{game.subject}
-              p #{game.desc}
+                .row
+                  .col-md-9
+                    h3 #{game.name}
+                  .col-md-3
+                    a(href="play_game/" + game.id)
+                      button.btn.btn-primary.pull-right Play
+              .panel-body
+                .text-muted.small #{game.subject}
+                p #{game.desc}
 
   if teacher
     a(href="/create_game")

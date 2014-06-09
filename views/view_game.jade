@@ -1,20 +1,25 @@
 extends layout
 
 block content
+  .well
+    h2 #{gname}
+    
+    .text-muted #{gsubject}
+    
+    p #{gdesc}
 
-  h2 #{gname}
-  small #{gsubject}
+    a(href="/edit_game/" + gid)
+      button.btn.btn-primary Edit Info
+  
+  .well
+    h3 Questions
+    #questions
+    if questions.length === 0
+      p No questions yet!
+    else
+      for question in questions
+        h4 = question.question
+        .answer = question.answer 
 
-  p #{gdesc}
-
-  h3 Questions
-  #questions
-  if questions.length === 0
-    p No questions yet!
-  else
-    for question in questions
-      h4 = question.question
-      .answer = question.answer 
-
-  button(class="btn btn-primary") Add Question
+    button(class="btn btn-primary") Add Question
   

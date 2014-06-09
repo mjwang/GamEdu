@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  form(role="form" action=("/edit_game/" + gid)  method="POST")
+    .form-group
+      label(for="game_name") Name of Game
+      input(type="name" class="form-control" name="name" id="game_name" value=gname) 
+    .form-group
+      label(for="game_subject") Subject
+      input(type="subject" class="form-control" name="subject" id="game_subject" value=gsubject)
+    .form-group
+      label(for="game_desc") Description
+      textarea.form-control(rows="3" name="desc" id="game_desc") #{gdesc}
+    .checkbox
+      input(type="checkbox" name="published" id="game_pub" checked=(gpub === true ? "checked" : undefined))
+      |Publish
+    button(type="submit" class="btn btn-success") Save
+
