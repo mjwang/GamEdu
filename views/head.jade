@@ -8,6 +8,13 @@ head
 
   <title>GamEdu</title>
   
+  link(href="./../css/game.css" rel="stylesheet")
   link(href="./../css/bootstrap.min.css" rel="stylesheet")
-  
   link(href="./../css/jumbotron-narrow.css" rel="stylesheet")
+
+  script(src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js")
+
+  script(src="./../games/dnj.util.js")
+
+  if play_game 
+    script(src="./../games/matching.js")

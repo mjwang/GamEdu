@@ -18,8 +18,10 @@ block content
       p No questions yet!
     else
       for question in questions
-        h4 = question.question
-        .answer = question.answer 
-
-    button(class="btn btn-primary") Add Question
+        a.btn.btn-block.btn-default(role="button" href="#")
+          .h4 #{question.question}
+          .small Answer: #{question.answer} 
+    br
+    p: a(href="/add_question/" + gid)
+      button.btn.btn-primary Add Question
   

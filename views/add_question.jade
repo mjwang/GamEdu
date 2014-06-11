@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  form(role="form" action=("/add_question/" + gid)  method="POST")
+    .form-group
+      label(for="question") Question 
+      textarea(type="question" rows="3" class="form-control" name="question" id="question" required) 
+    .form-group
+      label(for="answer") Answer 
+      textarea(type="answer" rows="3" class="form-control" name="answer" id="answer" required)
+    button(type="submit" class="btn btn-success") Add 
+

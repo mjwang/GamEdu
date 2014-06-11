@@ -10,6 +10,7 @@ module.exports = function config(app){
 
   app.use("/css", express.static(__dirname + "/css"));
   app.use("/views", express.static(__dirname + "/views"));
+  app.use("/games", express.static(__dirname + "/games"));
 
   app.use(body_parser());
   app.use(cookie_parser());

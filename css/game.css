@@ -1,0 +1,29 @@
+
+.board{
+  height: 500px;
+  text-align: center;
+}
+
+.card{
+  font-size: 40px;
+  padding: 15px;
+  height: 200px;
+  width: 200px;
+  border-radius: 25px;
+  background-color: gray;
+  margin: 5px;
+  border-color: black;
+  display: inline-block;
+  color: white;
+  text-align: center;
+  vertical-align: middle;
+  font-family: "monospace";
+}
+
+.question{
+  background-color: #202020;
+}
+
+.answer{
+  background-color: #787878;
+}

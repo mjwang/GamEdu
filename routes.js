@@ -83,8 +83,19 @@ module.exports = function routes(app){
 
 	})
 
+	app.get('/get_questions', function(req, res){
+		Game.findOne({'_id':req.query.gid}, function(err, game){
+			if (err) {
+				console.log(err);
+			} else {
+				console.log("Questions Retrieved: ", game.questions);
+				res.json({questions: game.questions});
+			}
+		});
+	});
+
 	app.param('gid', function(req, res, next, gid){
-		console.log('finding game');
+		console.log('finding game: ', gid);
 		Game.findOne({'_id':gid}, function(err, game){
 			if (!err){
 				req.gname = game.name; 
@@ -147,6 +158,37 @@ module.exports = function routes(app){
 				res.redirect('/view_game/' + req.gid);
 			}
 		});
+	})
+
+	app.route("/add_question/:gid")
+          .get(checkAuth, function(req, res) {
+		if (!req.teacher) {
+			res.redirect('/error');
+		}
+		res.render('add_question', { teacher: req.teacher, gid: req.gid });
+	})
+	  .post(checkAuth, function(req, res){
+		if (!req.teacher) {
+			res.redirect('/error');
+		}
+		var qtn = req.body.question;
+		var ans = req.body.answer;
+		
+		console.log('adding question: ', qtn); 
+
+		Game.findByIdAndUpdate(req.gid, {$push: {"questions": {question: qtn, answer: ans}}}, function(err, game) {
+			if (err){
+				console.log(err);
+			} else {
+				res.redirect('/view_game/' + req.gid); 
+			}
+		});
+
+	})
+
+	app.route("/play_game/:gid")
+	  .get(checkAuth, function(req, res){
+		res.render('play_game', {teacher: req.teacher, gtitle: req.gname, play_game: true})
 	})
 
 	function loadGames(req, res, next){
