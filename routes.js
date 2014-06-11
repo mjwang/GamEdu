@@ -5,8 +5,10 @@ var Game = require('mongoose').model('Game');
 module.exports = function routes(app){
 
 
-	app.get('/', function(req, res) {
-		res.sendfile(__dirname + '/views/index.html');
+	app.get('/', checkAuth, function(req, res) {
+		//res.sendfile(__dirname + '/views/index.html');
+		res.render('index', { teacher: req.teacher });
+		//res.redirect('/dashboard');
 	});
 
 	app.get('/test', function(req, res) {

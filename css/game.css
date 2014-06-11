@@ -1,14 +1,13 @@
 
 .board{
-  height: 500px;
   text-align: center;
 }
 
 .card{
-  font-size: 40px;
+  font-size: 30px;
   padding: 15px;
-  height: 200px;
-  width: 200px;
+  height: 150px;
+  width: 150px;
   border-radius: 25px;
   background-color: gray;
   margin: 5px;
