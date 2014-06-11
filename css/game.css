@@ -4,7 +4,7 @@
 }
 
 .card{
-  font-size: 30px;
+  font-size: 15px;
   padding: 15px;
   height: 150px;
   width: 150px;
@@ -16,7 +16,7 @@
   color: white;
   text-align: center;
   vertical-align: middle;
-  font-family: "monospace";
+  font-family: "helvetica";
 }
 
 .question{

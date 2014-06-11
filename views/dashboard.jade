@@ -1,8 +1,13 @@
 extends layout
 
 block content
-
-  h2 Games
+  
+  if teacher
+    h1 Teacher Dashboard
+    p.secondary.text-muted Create Games
+  else 
+    h1 Student Dashboard
+    p.secondary.text-muted Play Games 
 
   #games
   if games.length === 0
@@ -11,17 +16,17 @@ block content
     for game in games 
       if (teacher || game.published)
         if teacher
-            .panel(class="panel-default")
-              .panel-heading
-                .row
-                  .col-md-9
-                    h3 #{game.name}
-                  .col-md-3
-                    a(href="view_game/" + game.id)
-                      button.btn.btn-sucess.pull-right Edit
-              .panel-body
-                .text-muted.small #{game.subject}
-                p #{game.desc}
+          .panel(class="panel-default")
+            .panel-heading
+              .row
+                .col-md-9
+                  h3 #{game.name}
+                .col-md-3
+                  a(href="view_game/" + game.id)
+                    button.btn.btn-sucess.pull-right Edit
+            .panel-body
+              .text-muted.small #{game.subject}
+              p #{game.desc}
         else
             .panel(class="panel-default")
               .panel-heading
@@ -36,6 +41,5 @@ block content
                 p #{game.desc}
 
   if teacher
-    a(href="/create_game")
-      button(class="btn btn-primary pull-right") Create New Game
+    p: a.btn.btn-primary(href="/create_game") Create New Game
 

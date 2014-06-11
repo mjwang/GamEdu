@@ -10,7 +10,8 @@ $(document).ready(function(){
   // make ajax call to get questions
   var questions = [];
   var url = "/get_questions";
-  var req = {gid: '53904f30b62080f30c9b621e'};
+  //var req = {gid: '539060bd98dacf5317d3ea7d'};
+  var req = {gid: gid}
 
   $.get(url,req, function(data){
     questions = data.questions;
