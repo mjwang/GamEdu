@@ -2,5 +2,8 @@ extends layout
 
 block content
   h3 #{gtitle}
-  .board
-  .info
+  .board(id="board")
+  #message
+  #nav.hide.center-block
+    a.btn.btn-success(href="./" + gid) Play Again  
+    a.btn.btn-danger(href="/dashboard")   Go Back
