@@ -12,5 +12,5 @@ GamEdu is developed as part of a D-Lab Education Project supporting the Institut
 * Go to http://localhost:3000 
 
 * Install MongoDB
-* Run mongod --dbpath [insert directory for db data (ie. ./data)]
+* Run `mongod --dbpath [insert directory for db data (ie. ./data)]`
 
