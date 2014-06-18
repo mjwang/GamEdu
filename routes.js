@@ -100,6 +100,7 @@ module.exports = function routes(app){
 		console.log('finding game: ', gid);
 		Game.findOne({'_id':gid}, function(err, game){
 			if (!err){
+				req.game = game;
 				req.gname = game.name; 
 				req.gsub = game.subject;
 				req.gdesc = game.desc;
@@ -112,6 +113,21 @@ module.exports = function routes(app){
 		});
 	});
 
+	app.param('qid', function(req, res, next, qid){
+		console.log('getting question: ', qid);	
+		for (i= 0; i < req.questions.length; i ++) {
+			console.log("this question id: ", req.questions[i].id);
+			console.log("searching for: ", qid);
+			if (req.questions[i].id === qid) {
+				req.qid = qid;
+				req.question = req.questions[i];
+				req.qtext= req.questions[i].question;
+				req.atext= req.questions[i].answer;
+				next();
+			}	
+		}
+	});
+
 	app.get('/view_game/:gid', checkAuth, function(req, res){
 		console.log("viewing game");
 		console.log(req.gname);
@@ -122,6 +138,28 @@ module.exports = function routes(app){
 					questions: req.questions,
 					teacher: true});
 	});
+
+ 	app.route('/view_game/:gid/edit_question/:qid')
+	  .get(checkAuth, function(req, res){
+		if(!req.teacher){
+			res.redirect('/error');
+		}  else {
+			console.log("Edit Question page");
+			console.log("Question: ", req.question.id);
+			res.render('edit_question', {gid: req.gid, question: req.question, teacher: req.teacher});
+		}	
+	})
+	  .post(checkAuth, function(req, res){
+		if (!req.teacher){
+			res.redirect('/error');
+		}
+		var new_question = req.body.question;
+		var new_answer = req.body.answer;
+	
+		Game.update({'questions._id': req.qid}, {'$set': { 'questions.$.question': new_question, 'questions.$.answer': new_answer}}, function(err){
+			res.redirect('/view_game/' + req.gid);
+		});
+	})
 
 	app.route('/edit_game/:gid')
 	  .get(checkAuth, function(req, res){

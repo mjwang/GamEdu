@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  form(role="form" action=(question._id)  method="POST")
+    .form-group
+      label(for="question") Question 
+      textarea.form-control(rows="3" name="question" id="question") #{question.question}
+    .form-group
+      label(for="answer") Answer 
+      textarea.form-control(rows="3" name="answer" id="answer") #{question.answer}
+    button(type="submit" class="btn btn-success") Save
+    a(href=("/view_game/" + gid) class="btn btn-default") Cancel
+

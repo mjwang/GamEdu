@@ -12,36 +12,42 @@ block content
   #games
   if games.length === 0
     p No games created yet!
-  else
-    for game in games 
-      if (teacher || game.published)
-        if teacher
-          .panel(class=(game.published === true ? "panel-success" : "panel-default"))
-            .panel-heading
-              .row
-                .col-md-8
-                  h3 #{game.name}
-                .col-md-4
-                  a(href="view_game/" + game.id)
-                    button.btn.btn-default.pull-right: img.icon(src="/images/edit.png")
-                  a(href="play_game/" + game.id)
-                    button.btn.btn-success.pull-right: img.icon(src="/images/play.png")
-            .panel-body
-              .text-muted.small #{game.subject}
-              p #{game.desc}
-        else
-            .panel(class="panel-default")
-              .panel-heading
-                .row
-                  .col-md-9
-                    h3 #{game.name}
-                  .col-md-3
-                    a(href="play_game/" + game.id)
-                      button.btn.btn-success.pull-right: img.icon(src="/images/play.png") 
-              .panel-body
-                .text-muted.small #{game.subject}
-                p #{game.desc}
 
+  if teacher
+    h2 Published
+  p
+  for game in games
+    if game.published
+      .panel.panel-success
+        .panel-heading
+          .row
+            .col-md-8
+              h3 #{game.name}
+              p.secondary.text-muted #{game.subject}
+            .col-md-4
+              if teacher
+                a(href="view_game/" + game.id): button.btn.btn-default.pull-right: img.icon(src="/images/edit.png")
+              a(href="play_game/" + game.id): button.btn.btn-success.pull-right: img.icon(src="/images/play.png")
+         .panel-body
+           | #{game.desc} 
+
+  if teacher
+    h2 Unpublished
+    p
+    for game in games
+      if !game.published
+        .panel.panel-default
+          .panel-heading
+            .row
+              .col-md-8
+                h3 #{game.name}
+                p.secondary.text-muted #{game.subject}
+              .col-md-4
+                a(href="view_game/"+ game.id): button.btn.btn-default.pull-right: img.icon(src="/images/edit.png")
+                a(href="play_game/" + game.id): button.btn.btn-success.pull-right: img.icon(src="/images/play.png")
+          .panel-body
+            | #{game.desc}
+  
   if teacher
     p: a.btn.btn-primary(href="/create_game") Create New Game
 

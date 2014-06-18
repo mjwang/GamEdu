@@ -18,7 +18,7 @@ block content
       p No questions yet!
     else
       for question in questions
-        a.btn.btn-block.btn-default(role="button" href="#")
+        a.btn.btn-block.btn-default(role="button" href=(gid + "/edit_question/" + question._id))
           .h4 #{question.question}
           .small Answer: #{question.answer} 
     br
