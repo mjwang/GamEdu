@@ -11,8 +11,6 @@ block content
     .form-group
       label(for="game_desc") Description
       textarea.form-control(rows="3" name="desc" id="game_desc") #{gdesc}
-    .checkbox
-      input(type="checkbox" name="published" id="game_pub" checked=(gpub === true ? "checked" : undefined))
-      |Publish
-    p: button(type="submit" class="btn btn-success") Save
+    button(type="submit" class="btn btn-success") Save
+    a(href=("/view_game/" + gid) class="btn btn-default") Cancel
 
