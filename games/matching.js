@@ -80,36 +80,37 @@ $(document).ready(function(){
     cards.forEach(function(c){
       c.click(function(data,e){
         console.log("Clicked: ", c.getPosition());
+        if (!game.isMatched(c.getPosition())){
+          var res = game.advanceState(c.getPosition()); 
+          var out = res[0];
+          var state = res[1];
 
-        var res = game.advanceState(c.getPosition()); 
-        var out = res[0];
-        var state = res[1];
-
-        console.log("Game State: ", state);
-        console.log("Output: ", out);
+          console.log("Game State: ", state);
+          console.log("Output: ", out);
      
-        if (state === "selected"){
-          c.render("selected");
-        }	
-        if (state === "start"){
-          if (out === "match") {
+          if (state === "selected"){
+            c.render("selected");
+          }	
+          if (state === "start"){
+            if (out === "match") {
+              c.render("selected");
+              c.render("matched");
+              cards[game.getSelected()].render("matched");
+              flash("Nice Match!");
+            } 
+            if (out === "incorrect") {
+              c.render("incorrect");
+              cards[game.getSelected()].render("original");
+              flash("Incorrect :(");
+            }
+          }
+          if (state === "game_over"){
             c.render("selected");
             c.render("matched");
             cards[game.getSelected()].render("matched");
-            flash("Nice Match!");
-          } 
-          if (out === "incorrect") {
-            c.render("incorrect");
-            cards[game.getSelected()].render("original");
-            flash("Incorrect :(");
+            displayOutcome(out);
           }
-        }
-        if (state === "game_over"){
-          c.render("selected");
-          c.render("matched");
-          cards[game.getSelected()].render("matched");
-          displayOutcome(out);
-        }
+       }
      }); 
     });
     
@@ -139,6 +140,7 @@ var Game = function(questions, boardSize) {
   var states = ["start", "game_over", "selected", "matched", "incorrect"];
   var positionMap = {}; // Maps position -> text
   var answerMap = {}; // Maps question position -> answer position
+  var matched = {};
 
   var state = "start";
   var selected;
@@ -168,6 +170,10 @@ var Game = function(questions, boardSize) {
   this.setState = function(s){
     state = s;
   };
+
+  this.isMatched = function(c){
+    return (matched[c] === true);
+  }
 
   this.dealCards = function(){
     console.log("Dealing Cards: ", questions);
@@ -212,6 +218,8 @@ var Game = function(questions, boardSize) {
       console.log("Second: ", pos);
       if (answerMap[pos] === this.getSelected() || answerMap[this.getSelected()] === pos) {
         output = "match"; 
+        matched[pos] = true;
+        matched[this.getSelected()] = true;
         num_matches++;
       } else {
         output = "incorrect";

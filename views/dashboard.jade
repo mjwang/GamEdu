@@ -4,7 +4,7 @@ block content
   
   if teacher
     h1 Teacher Dashboard
-    p.secondary.text-muted Create Games
+    p.secondary.text-muted Create, Manage, and Play Games
   else 
     h1 Student Dashboard
     p.secondary.text-muted Play Games 
@@ -16,14 +16,16 @@ block content
     for game in games 
       if (teacher || game.published)
         if teacher
-          .panel(class="panel-default")
+          .panel(class=(game.published === true ? "panel-success" : "panel-default"))
             .panel-heading
               .row
-                .col-md-9
+                .col-md-8
                   h3 #{game.name}
-                .col-md-3
+                .col-md-4
                   a(href="view_game/" + game.id)
-                    button.btn.btn-sucess.pull-right Edit
+                    button.btn.btn-default.pull-right: img.icon(src="/images/edit.png")
+                  a(href="play_game/" + game.id)
+                    button.btn.btn-success.pull-right: img.icon(src="/images/play.png")
             .panel-body
               .text-muted.small #{game.subject}
               p #{game.desc}
@@ -35,7 +37,7 @@ block content
                     h3 #{game.name}
                   .col-md-3
                     a(href="play_game/" + game.id)
-                      button.btn.btn-primary.pull-right Play
+                      button.btn.btn-success.pull-right: img.icon(src="/images/play.png") 
               .panel-body
                 .text-muted.small #{game.subject}
                 p #{game.desc}

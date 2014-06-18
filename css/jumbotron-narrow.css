@@ -2,6 +2,7 @@
 body {
   padding-top: 20px;
   padding-bottom: 20px;
+  max-width: 100%;
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
@@ -51,6 +52,15 @@ body {
   font-size: 21px;
 }
 
+.btn{
+  margin: 3px;
+}
+
+.icon {
+  width: 15px;
+  height: 15px;
+}
+
 /* Supporting marketing content */
 .marketing {
   margin: 40px 0;
@@ -76,4 +86,5 @@ body {
   .jumbotron {
     border-bottom: 0;
   }
+
 }
