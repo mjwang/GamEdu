@@ -116,13 +116,14 @@ module.exports = function routes(app){
 	app.param('qid', function(req, res, next, qid){
 		console.log('getting question: ', qid);	
 		for (i= 0; i < req.questions.length; i ++) {
-			console.log("this question id: ", req.questions[i].id);
 			console.log("searching for: ", qid);
+			console.log("current question: ", req.questions[i].id);
 			if (req.questions[i].id === qid) {
 				req.qid = qid;
 				req.question = req.questions[i];
 				req.qtext= req.questions[i].question;
 				req.atext= req.questions[i].answer;
+				console.log("Found question");
 				next();
 			}	
 		}
@@ -132,11 +133,36 @@ module.exports = function routes(app){
 		console.log("viewing game");
 		console.log(req.gname);
 		res.render('view_game', {gname: req.gname,
+					gpub: req.published,
 					gsubject: req.gsub,
 					gdesc: req.gdesc,
 					gid: req.gid,
 					questions: req.questions,
-					teacher: true});
+					teacher: req.teacher});
+	});
+
+	app.get('/delete_game/:gid', checkAuth, function(req, res){
+		if (!req.teacher){
+			res.redirect('/error');
+		} else {
+			Game.findOne({'_id':req.gid}, function(err, game){
+				console.log(game);
+				game.remove();			
+				res.redirect('/dashboard');
+			});	
+		}
+	});
+
+	app.get('/view_game/:gid/edit_question/:qid/delete_question', checkAuth, function(req, res){
+		console.log("Ready to delete question");
+		Game.update({_id: req.gid}, {'$pull': { 'questions': {_id: req.question.id}}}, function(err){
+			if (!err){
+				console.log("Got question!");
+				res.redirect('/view_game/' + req.gid);
+			} else {
+				console.log(err);
+			}
+		});
 	});
 
  	app.route('/view_game/:gid/edit_question/:qid')
@@ -199,6 +225,26 @@ module.exports = function routes(app){
 			}
 		});
 	})
+
+	app.get("/publish_game/:gid", function(req, res){
+		Game.update({_id: req.gid}, {published: true}, function(err, game) {
+			if (err) {
+				console.log(err);
+			} else {
+				res.redirect('/dashboard');
+			}
+		});	
+	});
+
+	app.get("/unpublish_game/:gid", function(req, res){
+		Game.update({_id: req.gid}, {published: false}, function(err, game){
+			if (err){
+				console.log(err);
+			} else {
+				res.redirect('/dashboard');
+			}
+		});
+	});
 
 	app.route("/add_question/:gid")
           .get(checkAuth, function(req, res) {

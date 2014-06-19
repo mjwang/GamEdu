@@ -26,6 +26,7 @@ block content
               p.secondary.text-muted #{game.subject}
             .col-md-4
               if teacher
+                a(href="delete_game/" + game.id): button.btn.btn-danger.pull-right: img.icon(src="/images/delete.png")
                 a(href="view_game/" + game.id): button.btn.btn-default.pull-right: img.icon(src="/images/edit.png")
               a(href="play_game/" + game.id): button.btn.btn-success.pull-right: img.icon(src="/images/play.png")
          .panel-body
@@ -43,6 +44,7 @@ block content
                 h3 #{game.name}
                 p.secondary.text-muted #{game.subject}
               .col-md-4
+                a(href="delete_game/" + game.id): button.btn.btn-danger.pull-right: img.icon(src="/images/delete.png")
                 a(href="view_game/"+ game.id): button.btn.btn-default.pull-right: img.icon(src="/images/edit.png")
                 a(href="play_game/" + game.id): button.btn.btn-success.pull-right: img.icon(src="/images/play.png")
           .panel-body

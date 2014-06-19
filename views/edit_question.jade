@@ -9,5 +9,6 @@ block content
       label(for="answer") Answer 
       textarea.form-control(rows="3" name="answer" id="answer") #{question.answer}
     button(type="submit" class="btn btn-success") Save
+    a(href=(question._id + "/delete_question") class="btn btn-danger") Delete
     a(href=("/view_game/" + gid) class="btn btn-default") Cancel
 

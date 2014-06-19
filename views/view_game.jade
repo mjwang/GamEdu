@@ -10,7 +10,13 @@ block content
 
     a(href="/edit_game/" + gid)
       button.btn.btn-primary Edit Info
-  
+    if gpub
+      a(href="/unpublish_game/" + gid)
+        button.btn.btn-warning Unpublish Game
+    else
+      a(href="/publish_game/" + gid)
+        button.btn.btn-warning Publish Game
+
   .well
     h3 Questions
     #questions
