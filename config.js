@@ -20,7 +20,10 @@ module.exports = function config(app){
   app.set('views', path.join(__dirname + '/views'));
   app.set('view engine', 'jade');
 
-  mongoose.connect('mongodb://localhost/test');
+  var mongostr = "mongodb://heroku_app25660054:nqudn22siq07b7qcsuku4qtsp@ds031567.mongolab.com:31567/heroku_app25660054";
+  var localstr = "mongodb://localhost/test";
+
+  mongoose.connect(mongostr);
   var db = mongoose.connection;
 
   db.on('error', console.error.bind(console, 'connection error:'));
