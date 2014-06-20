@@ -96,18 +96,21 @@ $(document).ready(function(){
               c.render("selected");
               c.render("matched");
               cards[game.getSelected()].render("matched");
+              updateScore(game.getScore());
               flash("Nice Match!");
             } 
             if (out === "incorrect") {
               c.render("incorrect");
               cards[game.getSelected()].render("original");
-              flash("Incorrect :(");
+              updateScore(game.getScore());
+              flash("Incorrect");
             }
           }
           if (state === "game_over"){
             c.render("selected");
             c.render("matched");
             cards[game.getSelected()].render("matched");
+            updateScore(game.getScore());
             displayOutcome(out);
           }
        }
@@ -128,6 +131,10 @@ $(document).ready(function(){
     flash("Game Over. You Win!");
   };
 
+  var updateScore = function(score) {
+    $("#score").html("<h3> Score: " + score);
+  }
+
 });
 
 //
@@ -146,6 +153,7 @@ var Game = function(questions, boardSize) {
   var selected;
   var total_matches = questions.length;
   var num_matches = 0;
+  var score = 0;
 
   this.getState = function(){
     return state;
@@ -173,6 +181,14 @@ var Game = function(questions, boardSize) {
 
   this.isMatched = function(c){
     return (matched[c] === true);
+  }
+
+  this.getScore = function(){
+    return score;
+  }
+
+  this.setScore = function(s){
+    score += s;
   }
 
   this.dealCards = function(){
@@ -220,8 +236,10 @@ var Game = function(questions, boardSize) {
         output = "match"; 
         matched[pos] = true;
         matched[this.getSelected()] = true;
+        this.setScore(20);
         num_matches++;
       } else {
+        this.setScore(-10);
         output = "incorrect";
       }
 

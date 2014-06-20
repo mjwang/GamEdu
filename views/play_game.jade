@@ -1,10 +1,18 @@
 extends layout
 
 block content
-  h3 #{gtitle}
-  p.secondary.text-muted #{gdesc}
-  .board(id="board")
-  #message
-  #nav.hide.center-block
-    a.btn.btn-success(href="./" + gid) Play Again  
-    a.btn.btn-danger(href="/dashboard")   Go Back
+  .row
+    .col-md-8
+      
+      .board(id="board")
+    .col-md-4
+      h2 #{gtitle}
+      p.secondary.text-muted #{gdesc}
+      hr.bs-docs-separator
+      h3#score Score: 0 
+      a.btn.btn-danger(href="/dashboard") Quit Game
+      hr.bs-docs-separator
+      #message
+      #nav.hide.center-block
+        a.btn.btn-success(href="./" + gid) Play Again  
+        a.btn.btn-danger(href="/dashboard") Go Back

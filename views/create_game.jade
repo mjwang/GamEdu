@@ -7,7 +7,11 @@ block content
       input(type="name" class="form-control" name="name" id="game_name" placeholder="Enter Name of New Game")
     .form-group
       label(for="game_subject") Subject
-      input(type="subject" class="form-control" name="subjet" id="game_subject" placeholder="Enter Subject")
+      input(type="subject" class="form-control" name="subject" id="game_subject" placeholder="Enter Subject")
+    .form-group
+      label(for="game_type") Game Type
+      select.form-control(id="game_type" name="type")
+        option Matching 
     .form-group
       label(for="game_desc") Description & Instructions
       textarea.form-control(rows="3" name="desc" id="game_desc" placeholder="Enter Description of the Game") 

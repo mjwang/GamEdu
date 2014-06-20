@@ -18,7 +18,7 @@ block content
         button.btn.btn-warning Publish Game
 
   .well
-    h3 Questions
+    h3 Questions & Answer Pairs
     #questions
     if questions.length === 0
       p No questions yet!
@@ -29,6 +29,6 @@ block content
           .small Answer: #{question.answer} 
     br
     p: a(href="/add_question/" + gid)
-      button.btn.btn-primary Add Question
+      button.btn.btn-primary Add Question/Answer
   
   a(href="/dashboard"): button.btn.btn-danger Save
