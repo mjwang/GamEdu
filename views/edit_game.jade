@@ -9,7 +9,7 @@ block content
       label(for="game_subject") Subject
       input(type="subject" class="form-control" name="subject" id="game_subject" value=gsubject)
     .form-group
-      label(for="game_desc") Description
+      label(for="game_desc") Description & Instructions
       textarea.form-control(rows="3" name="desc" id="game_desc") #{gdesc}
     button(type="submit" class="btn btn-success") Save
     a(href=("/view_game/" + gid) class="btn btn-default") Cancel

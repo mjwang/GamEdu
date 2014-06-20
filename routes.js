@@ -274,7 +274,7 @@ module.exports = function routes(app){
 
 	app.route("/play_game/:gid")
 	  .get(checkAuth, function(req, res){
-		res.render('play_game', {teacher: req.teacher, gid: req.gid, gtitle: req.gname, play_game: true})
+		res.render('play_game', {teacher: req.teacher, gid: req.gid, gtitle: req.gname, gdesc: req.gdesc, play_game: true})
 	})
 
 	function loadGames(req, res, next){
