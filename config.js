@@ -25,7 +25,7 @@ module.exports = function config(app){
   var mongostr = "mongodb://heroku_app25660054:nqudn22siq07b7qcsuku4qtsp@ds031567.mongolab.com:31567/heroku_app25660054";
   var localstr = "mongodb://localhost/test";
 
-  mongoose.connect(localstr);
+  mongoose.connect(mongostr);
   var db = mongoose.connection;
 
   db.on('error', console.error.bind(console, 'connection error:'));
