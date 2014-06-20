@@ -4,10 +4,10 @@
 }
 
 .card{
-  font-size: 15px;
-  padding: 15px;
-  height: 140px;
-  width: 140px;
+  font-size: 12px;
+  padding: 10px;
+  height: 100px;
+  width: 100px;
   border-radius: 25px;
   background-color: gray;
   margin: 5px;
