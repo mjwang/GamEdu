@@ -4,6 +4,8 @@ var app = express();
 
 module.exports = init(app);
 
-var server = app.listen(80, function() {
+var port = process.env.PORT || 3000;
+
+var server = app.listen(port, function() {
     console.log('Listening on port %d', server.address().port);
 });
