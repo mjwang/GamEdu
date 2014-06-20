@@ -4,6 +4,7 @@ var cookie_parser = require('cookie-parser');
 var express_session = require('express-session');
 var mongoose = require('mongoose');
 var path = require('path');
+var flash = require('connect-flash');
 
 
 module.exports = function config(app){
@@ -16,6 +17,7 @@ module.exports = function config(app){
   app.use(body_parser());
   app.use(cookie_parser());
   app.use(express_session({secret: "gamedu sec"}));
+  app.use(flash());
 
   app.set('views', path.join(__dirname + '/views'));
   app.set('view engine', 'jade');
@@ -23,7 +25,7 @@ module.exports = function config(app){
   var mongostr = "mongodb://heroku_app25660054:nqudn22siq07b7qcsuku4qtsp@ds031567.mongolab.com:31567/heroku_app25660054";
   var localstr = "mongodb://localhost/test";
 
-  mongoose.connect(mongostr);
+  mongoose.connect(localstr);
   var db = mongoose.connection;
 
   db.on('error', console.error.bind(console, 'connection error:'));

@@ -10,6 +10,7 @@
     "cookie-parser": "*",
     "mongodb": "*",
     "mongoose": "*",
-    "jade": "*"
+    "jade": "*",
+    "connect-flash": "*"
   }
 }

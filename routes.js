@@ -20,13 +20,14 @@ module.exports = function routes(app){
 	});
 
 	app.get('/dashboard', checkAuth, loadGames, function(req, res){
-		res.render('dashboard', { games: req.games, teacher: req.teacher});	
+		res.render('dashboard', { games: req.games, teacher: req.teacher}); 
 		//res.sendfile(__dirname + '/views/teacher_home.html');
 	}); 
 	
 	app.route('/login')
 	  .get(checkAuth, function(req, res, next){
-		res.render('login', {teacher: req.teacher});
+		var error = req.flash('error');
+		res.render('login', {teacher: req.teacher, message: error}); 
 		//res.sendfile(__dirname + '/views/login.html');
 	})
 	  .post(function(req, res, next){
@@ -35,7 +36,8 @@ module.exports = function routes(app){
 			req.session.user_id = teacher_id; 
 			res.redirect('/dashboard');
 		} else {
-			console.log("error wrong password");
+			req.flash('error', 'Wrong password! Try again');
+			res.redirect('/login');
 		}
 	})
 
@@ -58,13 +60,9 @@ module.exports = function routes(app){
 		res.render('create_game', {teacher: req.teacher});
 	})
 	  .post(function(req, res, next){
-		console.log("posting newly created game");
 		var gname = req.body.name;
-		console.log(gname);
 		var gsubject = req.body.subject;
-		console.log(gsubject);
 		var gdesc = req.body.desc;
-		console.log(gdesc);
 		
 		var new_game = new Game({name: gname,
 				subject: gsubject,
@@ -97,7 +95,6 @@ module.exports = function routes(app){
 	});
 
 	app.param('gid', function(req, res, next, gid){
-		console.log('finding game: ', gid);
 		Game.findOne({'_id':gid}, function(err, game){
 			if (!err){
 				req.game = game;
@@ -114,23 +111,18 @@ module.exports = function routes(app){
 	});
 
 	app.param('qid', function(req, res, next, qid){
-		console.log('getting question: ', qid);	
 		for (i= 0; i < req.questions.length; i ++) {
-			console.log("searching for: ", qid);
-			console.log("current question: ", req.questions[i].id);
 			if (req.questions[i].id === qid) {
 				req.qid = qid;
 				req.question = req.questions[i];
 				req.qtext= req.questions[i].question;
 				req.atext= req.questions[i].answer;
-				console.log("Found question");
 				next();
 			}	
 		}
 	});
 
 	app.get('/view_game/:gid', checkAuth, function(req, res){
-		console.log("viewing game");
 		console.log(req.gname);
 		res.render('view_game', {gname: req.gname,
 					gpub: req.published,
@@ -138,7 +130,8 @@ module.exports = function routes(app){
 					gdesc: req.gdesc,
 					gid: req.gid,
 					questions: req.questions,
-					teacher: req.teacher});
+					teacher: req.teacher,
+					message: req.flash('success')});
 	});
 
 	app.get('/delete_game/:gid', checkAuth, function(req, res){
@@ -154,10 +147,8 @@ module.exports = function routes(app){
 	});
 
 	app.get('/view_game/:gid/edit_question/:qid/delete_question', checkAuth, function(req, res){
-		console.log("Ready to delete question");
 		Game.update({_id: req.gid}, {'$pull': { 'questions': {_id: req.question.id}}}, function(err){
 			if (!err){
-				console.log("Got question!");
 				res.redirect('/view_game/' + req.gid);
 			} else {
 				console.log(err);
@@ -170,8 +161,6 @@ module.exports = function routes(app){
 		if(!req.teacher){
 			res.redirect('/error');
 		}  else {
-			console.log("Edit Question page");
-			console.log("Question: ", req.question.id);
 			res.render('edit_question', {gid: req.gid, question: req.question, teacher: req.teacher});
 		}	
 	})
@@ -192,12 +181,10 @@ module.exports = function routes(app){
                 if(!req.teacher){
 			res.redirect('/error');
 		} else {
-			console.log("Rendering edit game page");
 			res.render('edit_game', {gname: req.gname,
 					gsubject: req.gsub,
 					gdesc: req.gdesc,
 					gid: req.gid,
-					gpub: req.published,
 					teacher: req.teacher});
 		}
 	})
@@ -209,18 +196,12 @@ module.exports = function routes(app){
 		var new_name = req.body.name;
 		var new_subject = req.body.subject;
 		var new_desc = req.body.desc;
-		var new_pub;
 
-		if (req.body.published === "on"){
-			new_pub = true;	
-		} else {
-			new_pub = false;
-		}
-
-		Game.update({_id: req.gid}, {name: new_name, subject: new_subject, desc: new_desc, published: new_pub}, function(err, game) {
+		Game.update({_id: req.gid}, {name: new_name, subject: new_subject, desc: new_desc}, function(err, game) {
 			if (err){
 				console.log(err);
 			} else {
+				req.flash('sucess', 'Updated Game Information');
 				res.redirect('/view_game/' + req.gid);
 			}
 		});
