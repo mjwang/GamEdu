@@ -15,3 +15,7 @@ GamEdu is developed as part of a D-Lab Education Project supporting the Institut
 * Install MongoDB
 * Run `mongod --dbpath [insert directory for db data (ie. ./data)]`
 
+# Demo
+http://peaceful-badlands-8184.herokuapp.com/
+
+
