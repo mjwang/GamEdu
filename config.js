@@ -22,7 +22,7 @@ module.exports = function config(app){
   app.set('views', path.join(__dirname + '/views'));
   app.set('view engine', 'jade');
 
-  var mongostr = "mongodb://heroku_app25660054:nqudn22siq07b7qcsuku4qtsp@ds031567.mongolab.com:31567/heroku_app25660054";
+  var mongostr = "mongodb://gamedu_user:malambo.mongolab.com:31567/heroku_app25660054";
   var localstr = "mongodb://localhost/test";
 
   mongoose.connect(mongostr);
