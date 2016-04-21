@@ -1,7 +1,7 @@
 {
   "name": "GamEdu",
   "description": "education game framework for teachers",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "express": "4.x",
